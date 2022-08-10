@@ -1,0 +1,109 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar,
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+}
+
+.navbar > a,
+.buttons > a {
+    text-decoration: none;
+}
+
+.logo {
+    color: rgba(250,177,15,0.82);
+    font-size: 4em;
+    font-weight: 400;
+}
+
+.login-button,
+.register-button {
+    margin-right: 50px;
+    background-color: rgba(205,250,70,0.82);
+    color: black;
+    font-size: 1.0em;
+    text-transform: uppercase;
+    padding: 3px 16px;
+    line-height: 24px;
+    font-weight: 400;
+    letter-spacing: .1em;
+    border: 2px solid gold;
+    border-radius: 25px;
+}
+
+.register-button {
+    margin-right: 0;
+    background-color: rgba(65, 141, 4, 0.82);
+}
+
+.menu > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.menu > ul > li {
+    flex-grow: 1;
+    padding: 0.5rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.menu > ul > li > a {
+    color: inherit;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.menu > ul > li:nth-child(1) {
+    border: 2px solid;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.menu > ul > li:nth-child(n+2) {
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}
+
+.menu > ul > li:last-child {
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.usage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+}
+
+.search {
+    border: 2px solid black;
+    border-radius: 25px;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.search > input {
+    line-height: 1.6em;
+
+}

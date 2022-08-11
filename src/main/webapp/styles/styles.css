@@ -101,9 +101,39 @@ body {
     border-radius: 25px;
     font-size: 18px;
     font-style: italic;
+    padding-left: 25px;
 }
 
 .search > input {
     line-height: 1.6em;
+}
 
+.column {
+    flex: 50%;
+}
+
+.row {
+    display: flex;
+}
+
+.big-footer {
+    padding-top: 100px;
+}
+
+.big-footer > a {
+    text-decoration: none;
+    color: black;
+}
+
+.line {
+    height: 2px;
+    background-color: black;
+}
+
+footer {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-style: italic;
+    color: gray;
 }

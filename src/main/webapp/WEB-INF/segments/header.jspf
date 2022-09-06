@@ -1,9 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar">
     <a href="${pageContext.request.contextPath}" class="logo">WeBankApp</a>
     <div class="buttons">
-        <a href="#" class="login-button">Sign In</a>
-        <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
+        <c:choose>
+            <c:when test="${empty pageContext.request.userPrincipal}">
+                <a href="${pageContext.request.contextPath}/login" class="login-button">Sign In</a>
+                <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
+            </c:when>
+            <c:when test="${not empty pageContext.request.userPrincipal}">
+                <a href="#" class="login-button">My account</a>
+                <a href="${pageContext.request.contextPath}/logout" class="login-button">Sign Out</a>
+            </c:when>
+        </c:choose>
+
     </div>
 </nav>
 

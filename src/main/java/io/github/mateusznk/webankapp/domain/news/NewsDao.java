@@ -1,6 +1,7 @@
 package io.github.mateusznk.webankapp.domain.news;
 
 import io.github.mateusznk.webankapp.config.DataSourceProvider;
+import io.github.mateusznk.webankapp.domain.common.BaseDao;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -12,16 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsDao {
-    private final DataSource dataSource;
-
-    public NewsDao() {
-        try {
-            this.dataSource = DataSourceProvider.getDataSource();
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+public class NewsDao extends BaseDao {
 
     public List<News> findAllNews() {
         final String query = """
@@ -30,7 +22,7 @@ public class NewsDao {
                 FROM
                 news
                 """;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement();) {
             ResultSet resultSet = statement.executeQuery(query);
             List<News> allNews = new ArrayList<>();

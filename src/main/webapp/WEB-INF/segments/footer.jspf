@@ -1,0 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<section class="big-footer">
+    <hr class="line">
+    <a href="${pageContext.request.contextPath}">
+        <i class="fa-solid fa-newspaper"></i>
+        WeBankApp
+    </a>
+</section>
+<footer>WeBankApp ®, created and developed by Mateusz Nowak</footer>

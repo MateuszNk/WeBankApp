@@ -19,6 +19,6 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<NewsBasicInfo> news = newsService.findAll();
         request.setAttribute("news", news);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
     }
 }

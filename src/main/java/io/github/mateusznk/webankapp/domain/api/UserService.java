@@ -18,8 +18,10 @@ public class UserService {
         try {
             hashPasswordWithSha256(userToSave);
             userDao.save(userToSave);
-            // dodane po zmianach Account
             OptionalInt id = userDao.findUser(userToSave.getUsername());
+            if (id.isEmpty()) {
+                throw new UnknownError();
+            }
             accountDao.createNewAccount(id.getAsInt());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);

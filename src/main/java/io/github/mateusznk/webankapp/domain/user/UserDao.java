@@ -3,7 +3,6 @@ package io.github.mateusznk.webankapp.domain.user;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
 
 import java.sql.*;
-import java.util.Optional;
 import java.util.OptionalInt;
 
 public class UserDao extends BaseDao {

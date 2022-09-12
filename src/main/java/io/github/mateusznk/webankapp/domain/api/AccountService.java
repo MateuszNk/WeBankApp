@@ -8,13 +8,14 @@ import java.util.Optional;
 public class AccountService {
     private final AccountDao accountDao = new AccountDao();
 
-    public AccountBasicInfo readAccountData(int id) {
+    public Optional<AccountBasicInfo> readAccountData(int id) {
         Optional<Account> optionalAccount = accountDao.readAccountDataWithId(id);
         if (optionalAccount.isEmpty()) {
-            System.out.println("Nie znaleziono");
+            throw new UnknownError();
         }
+
         String accountNumber = optionalAccount.get().getAccountNumber();
         double balance = optionalAccount.get().getBalance();
-        return new AccountBasicInfo(accountNumber, balance);
+        return Optional.of(new AccountBasicInfo(accountNumber, balance));
     }
 }

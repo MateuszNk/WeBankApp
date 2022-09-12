@@ -32,7 +32,7 @@
     <main>
         <div class="row">
             <div class="column welcome">
-                <h2>Welcome Mateusz Nowak!</h2>
+                <h2>Welcome ${pageContext.request.userPrincipal.name}</h2>
                 <p><c:out value="${requestScope.account_number}"/></p>
                 <i class="fa-solid fa-wallet"></i>
                 <p>Your account balance: ${requestScope.account_balance}zł</p>

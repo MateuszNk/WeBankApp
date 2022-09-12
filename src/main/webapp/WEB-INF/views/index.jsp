@@ -12,15 +12,22 @@
 
 <body>
 <div class="container">
-    <%@ include file="../segments/header.jspf" %>
+    <nav class="navbar">
+        <a href="${pageContext.request.contextPath}" class="logo">WeBankApp</a>
+        <c:if test="${empty pageContext.request.userPrincipal}">
+            <div class="buttons">
+                <a href="${pageContext.request.contextPath}/login" class="login-button">Sign In</a>
+                <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
+            </div>
+        </c:if>
+        <c:if test="${not empty pageContext.request.userPrincipal}">
+            <div class="buttons">
+                <a href="${pageContext.request.contextPath}/account" class="myaccount-button">My account</a>
+            </div>
+        </c:if>
+    </nav>
 
-    <div class="usage">
-        <p>Number of people using our bank: 123456</p>
-        <label>
-            <i class="fa-solid fa-magnifying-glass" style="position: absolute; padding: 8px;"></i>
-            <input type="text" name="search" class="search" placeholder="Search:">
-        </label>
-    </div>
+    <%@ include file="../segments/menu.jspf" %>
 
     <main>
         <c:set var="numCols" value="2"/>

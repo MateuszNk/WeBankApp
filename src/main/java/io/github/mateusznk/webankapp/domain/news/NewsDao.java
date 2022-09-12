@@ -23,7 +23,7 @@ public class NewsDao extends BaseDao {
                 news
                 """;
         try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();) {
+             Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             List<News> allNews = new ArrayList<>();
             while (resultSet.next()) {

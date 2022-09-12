@@ -9,7 +9,13 @@
 
 <body>
 <div class="container">
-    <%@ include file="../segments/header.jspf" %>
+    <nav class="navbar">
+        <a href="${pageContext.request.contextPath}" class="logo">WeBankApp</a>
+        <div class="buttons">
+            <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
+        </div>
+    </nav>
+    <hr class="line">
 
     <form action="j_security_check" method="post" class="user-form">
         <h2 class="user-form-title">Login</h2>

@@ -3,6 +3,8 @@ package io.github.mateusznk.webankapp.domain.user;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
 
 import java.sql.*;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 public class UserDao extends BaseDao {
 
@@ -51,6 +53,33 @@ public class UserDao extends BaseDao {
         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public OptionalInt findUser(String username) {
+        return returnIdOfUser(username);
+    }
+
+    private OptionalInt returnIdOfUser(String username) {
+        final String query = """
+                SELECT
+                    id
+                FROM
+                    registration_data
+                WHERE
+                    username = ?
+                """;
+
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return OptionalInt.of(resultSet.getInt("id"));
+            }
+            return OptionalInt.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

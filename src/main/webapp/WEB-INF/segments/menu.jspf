@@ -1,0 +1,17 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<aside class="menu">
+    <ul>
+        <li><a href="${pageContext.request.contextPath}">Home</a></li>
+        <li><a href="#">Individuals</a></li>
+        <li><a href="#">Companies</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</aside>
+
+<!-- <div class="usage">
+    <label>
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; padding: 8px;"></i>
+        <input type="text" name="search" class="search" placeholder="Search:">
+    </label>
+</div> -->

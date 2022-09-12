@@ -1,20 +1,26 @@
 package io.github.mateusznk.webankapp.domain.api;
 
+import io.github.mateusznk.webankapp.domain.account.AccountDao;
 import io.github.mateusznk.webankapp.domain.user.User;
 import io.github.mateusznk.webankapp.domain.user.UserDao;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.OptionalInt;
 
 public class UserService {
     private UserDao userDao = new UserDao();
+    private AccountDao accountDao = new AccountDao();
 
     public void register(UserRegistration userRegistration) {
         User userToSave = UserMapper.map(userRegistration);
         try {
             hashPasswordWithSha256(userToSave);
             userDao.save(userToSave);
+            // dodane po zmianach Account
+            OptionalInt id = userDao.findUser(userToSave.getUsername());
+            accountDao.createNewAccount(id.getAsInt());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -36,5 +42,10 @@ public class UserService {
                     userRegistration.getNewsletter()
             );
         }
+    }
+
+
+    public OptionalInt findIdOfAccount(String username) {
+        return userDao.findUser(username);
     }
 }

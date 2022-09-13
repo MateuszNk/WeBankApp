@@ -1,5 +1,6 @@
 package io.github.mateusznk.webankapp.domain.account.personal;
 
+import io.github.mateusznk.webankapp.domain.api.PersonalDataBasicInfo;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
 
 import java.sql.*;
@@ -7,7 +8,7 @@ import java.sql.*;
 public class PersonalDataDao extends BaseDao {
 
     public void saveData(PersonalData personalData, int id, int idOfCountry) {
-        String country = readIdWithCategoryName(idOfCountry);
+        String country = getCountryWithId(idOfCountry);
         saveDataToDatabase(personalData, id ,country);
     }
 
@@ -35,7 +36,7 @@ public class PersonalDataDao extends BaseDao {
         }
     }
 
-    public String readIdWithCategoryName(int idOfCountry) {
+    public String getCountryWithId (int idOfCountry) {
         final String query = """
                 SELECT
                     country
@@ -53,6 +54,61 @@ public class PersonalDataDao extends BaseDao {
                 throw new SQLException();
             }
             return resultSet.getString("country");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isRecordInDb(int id) {
+        final String query = """
+                SELECT
+                    id, name, surname, birth_date, city, postal_code, address, country
+                FROM
+                    personal_data
+                WHERE
+                    id = ?
+                """;
+
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void replaceData (PersonalDataBasicInfo personalDataBasicInfo,
+                             int id,
+                             Integer idOfCountry) {
+        final String query = """
+                UPDATE
+                    personal_data
+                SET
+                    name = ?,
+                    surname = ?,
+                    birth_date = ?,
+                    city = ?,
+                    postal_code = ?,
+                    address = ?,
+                    country = (SELECT country FROM countries WHERE country = ?)
+                WHERE
+                    id = ?
+                """;
+
+        String country = getCountryWithId(idOfCountry);
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, personalDataBasicInfo.getName());
+            preparedStatement.setString(2, personalDataBasicInfo.getSurname());
+            preparedStatement.setObject(3, personalDataBasicInfo.getBirthDate());
+            preparedStatement.setString(4, personalDataBasicInfo.getCity());
+            preparedStatement.setString(5, personalDataBasicInfo.getPostalCode());
+            preparedStatement.setString(6, personalDataBasicInfo.getAddress());
+            preparedStatement.setString(7, country);
+            preparedStatement.setInt(8, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

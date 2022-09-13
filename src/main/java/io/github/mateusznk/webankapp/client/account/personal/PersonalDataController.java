@@ -46,7 +46,8 @@ public class PersonalDataController extends HttpServlet {
         if (optionalInt.isEmpty()) {
             throw new UnknownError();
         }
-        personalDataService.createNewPersonalData(personalDataBasicInfo,
+
+        personalDataService.checkIfPersonalDataExists(personalDataBasicInfo,
                 optionalInt.getAsInt(),
                 getIntCountry(request));
         response.sendRedirect(request.getContextPath());

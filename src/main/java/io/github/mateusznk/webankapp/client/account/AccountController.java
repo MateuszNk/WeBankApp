@@ -28,7 +28,7 @@ public class AccountController extends HttpServlet {
         if (accountBasicInfo.isEmpty()){
             throw new UnknownError();
         }
-        
+
         request.setAttribute("account_number", accountBasicInfo.get().getAccountNumber());
         request.setAttribute("account_balance", accountBasicInfo.get().getBalance());
         request.getRequestDispatcher("/WEB-INF/views/account.jsp").forward(request, response);

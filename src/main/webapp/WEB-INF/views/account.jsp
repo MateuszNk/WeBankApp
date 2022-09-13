@@ -15,7 +15,7 @@
     <nav class="navbar">
         <a href="#" class="logo">WeBankApp</a>
         <div class="buttons">
-            <a href="#" class="myaccount-button">My account</a>
+            <a href="${pageContext.request.contextPath}/personal-data" class="myaccount-button">My account</a>
             <a href="${pageContext.request.contextPath}/logout" class="logout-button">Logout</a>
         </div>
     </nav>

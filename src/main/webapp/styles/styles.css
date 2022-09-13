@@ -30,7 +30,8 @@ body {
 .login-button,
 .register-button,
 .myaccount-button,
-.logout-button {
+.logout-button,
+.back-button {
     margin-right: 50px;
     background-color: rgba(205,250,70,0.82);
     color: black;
@@ -45,7 +46,8 @@ body {
 }
 
 .register-button,
-.logout-button {
+.logout-button,
+.back-button {
     margin-right: 0;
     background-color: rgba(65, 141, 4, 0.82);
 }

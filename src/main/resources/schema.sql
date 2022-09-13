@@ -60,3 +60,9 @@ MODIFY username VARCHAR(32) NOT NULL UNIQUE;
 
 ALTER TABLE registration_data
 MODIFY password VARCHAR(100) NOT NULL;
+
+ALTER TABLE personal_data
+ADD COLUMN country VARCHAR(60) NOT NULL;
+
+ALTER TABLE personal_data
+ADD FOREIGN KEY personal_data (country) REFERENCES countries (country);

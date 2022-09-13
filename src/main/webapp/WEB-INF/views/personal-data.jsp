@@ -25,7 +25,7 @@
     <input type="date" name="birth_date" placeholder="Birthday" required>
     <label>
       Country
-      <select name="country">
+      <select name="countryId">
         <c:forEach var="country" items="${requestScope.countries}">
           <option value="${country.id}">${country.country}</option>
         </c:forEach>

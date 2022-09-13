@@ -1,9 +1,6 @@
 package io.github.mateusznk.webankapp.client.account.personal;
 
-import io.github.mateusznk.webankapp.domain.api.CountryName;
-import io.github.mateusznk.webankapp.domain.api.CountryService;
-import io.github.mateusznk.webankapp.domain.api.PersonalDataBasicInfo;
-import io.github.mateusznk.webankapp.domain.api.PersonalDataService;
+import io.github.mateusznk.webankapp.domain.api.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpMethodConstraint;
 import jakarta.servlet.annotation.ServletSecurity;
@@ -21,6 +18,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Date;
 import java.util.List;
+import java.util.OptionalInt;
 
 @WebServlet("/personal-data")
 @ServletSecurity(
@@ -32,6 +30,7 @@ import java.util.List;
 public class PersonalDataController extends HttpServlet {
     private final CountryService countryService = new CountryService();
     private final PersonalDataService personalDataService = new PersonalDataService();
+    private final UserService userService = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,7 +42,13 @@ public class PersonalDataController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PersonalDataBasicInfo personalDataBasicInfo = createSaveRequest(request);
-        personalDataService.createNewPersonalData(personalDataBasicInfo);
+        OptionalInt optionalInt = getIdFromDB(request);
+        if (optionalInt.isEmpty()) {
+            throw new UnknownError();
+        }
+        personalDataService.createNewPersonalData(personalDataBasicInfo,
+                optionalInt.getAsInt(),
+                getIntCountry(request));
         response.sendRedirect(request.getContextPath());
     }
 
@@ -59,7 +64,8 @@ public class PersonalDataController extends HttpServlet {
         String city = request.getParameter("city");
         String postalCode = request.getParameter("postal_code");
         String address = request.getParameter("address");
-        String country = request.getParameter("country");
+        int countryId = getIntCountry(request);
+        String country = personalDataService.getStringCountryFromCountryID(countryId);
 
         return new PersonalDataBasicInfo(
                 name,
@@ -70,5 +76,14 @@ public class PersonalDataController extends HttpServlet {
                 address,
                 country
         );
+    }
+
+    private int getIntCountry(HttpServletRequest request) {
+        return Integer.parseInt(request.getParameter("countryId"));
+    }
+
+    private OptionalInt getIdFromDB(HttpServletRequest request) {
+        String username = request.getUserPrincipal().getName();
+        return userService.findIdOfAccount(username);
     }
 }

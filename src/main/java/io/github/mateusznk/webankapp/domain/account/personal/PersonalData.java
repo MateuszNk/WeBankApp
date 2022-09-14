@@ -7,7 +7,7 @@ public class PersonalData {
     private Integer id;
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
+    private Date birthDate;
     private String city;
     private String postalCode;
     private String address;
@@ -16,7 +16,7 @@ public class PersonalData {
     public PersonalData(Integer id,
                         String name,
                         String surname,
-                        LocalDateTime birthDate,
+                        Date birthDate,
                         String city,
                         String postalCode,
                         String address,
@@ -27,7 +27,7 @@ public class PersonalData {
 
     public PersonalData (String name,
                         String surname,
-                        LocalDateTime birthDate,
+                        Date birthDate,
                         String city,
                         String postalCode,
                         String address,
@@ -57,7 +57,7 @@ public class PersonalData {
         return surname;
     }
 
-    public LocalDateTime getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 

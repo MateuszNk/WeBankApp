@@ -28,7 +28,7 @@ public class AccountDao extends BaseDao {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(map(resultSet));
+                return Optional.of(mapRow(resultSet));
             }
             return Optional.empty();
         } catch (SQLException e) {
@@ -36,7 +36,7 @@ public class AccountDao extends BaseDao {
         }
     }
 
-    private static Account map(ResultSet resultSet) throws SQLException {
+    private static Account mapRow(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String accountNumber = resultSet.getString("account_number");
         double balance = resultSet.getDouble("balance");
@@ -85,13 +85,6 @@ public class AccountDao extends BaseDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Account mapRow(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String accountNumber = resultSet.getString("account_number");
-        double balance = resultSet.getDouble("balance");
-        return new Account(id, accountNumber, balance);
     }
 
     private String generateAccount(List<Account> accounts) {

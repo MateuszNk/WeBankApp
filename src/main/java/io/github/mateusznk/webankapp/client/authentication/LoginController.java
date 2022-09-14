@@ -21,7 +21,6 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //response.sendRedirect(request.getContextPath());
         request.getRequestDispatcher("/account").forward(request, response);
     }
 }

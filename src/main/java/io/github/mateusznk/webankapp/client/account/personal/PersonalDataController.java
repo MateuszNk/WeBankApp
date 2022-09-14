@@ -12,11 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
 
@@ -35,6 +31,22 @@ public class PersonalDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<CountryName> countries = countryService.findAllCategoryNames();
+        OptionalInt optionalInt = getIdFromDB(request);
+        if (optionalInt.isEmpty()) {
+            throw new UnknownError();
+        }
+        int id = optionalInt.getAsInt();
+        PersonalDataBasicInfo personalDataBasicInfo = personalDataService.getPersonalData(id);
+        if (personalDataBasicInfo != null) {
+            List<PersonalDataBasicInfo> list = new ArrayList<>();
+            list.add(personalDataBasicInfo);
+            request.setAttribute("name", personalDataBasicInfo.getName());
+            request.setAttribute("data", list);
+            request.setAttribute("is_personal_data", true);
+        } else {
+            request.setAttribute("is_personal_data", false);
+        }
+
         request.setAttribute("countries", countries);
         request.getRequestDispatcher("/WEB-INF/views/personal-data.jsp").forward(request, response);
     }
@@ -51,17 +63,19 @@ public class PersonalDataController extends HttpServlet {
                 optionalInt.getAsInt(),
                 getIntCountry(request));
         response.sendRedirect(request.getContextPath());
+        //request.getRequestDispatcher("/account").forward(request, response);
     }
 
     private PersonalDataBasicInfo createSaveRequest(HttpServletRequest request) {
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("yyyy-MM-dd[HH]")
-                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-                .toFormatter();
-        String date = request.getParameter("birth_date");
-        LocalDateTime birthDate = LocalDateTime.parse(date, formatter);
+        java.sql.Date SQLDate;
+        try {
+            java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birth_date"));
+            SQLDate = new java.sql.Date(date.getTime());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         String city = request.getParameter("city");
         String postalCode = request.getParameter("postal_code");
         String address = request.getParameter("address");
@@ -71,7 +85,7 @@ public class PersonalDataController extends HttpServlet {
         return new PersonalDataBasicInfo(
                 name,
                 surname,
-                birthDate,
+                SQLDate,
                 city,
                 postalCode,
                 address,

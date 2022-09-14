@@ -52,4 +52,8 @@ public class PersonalDataService {
             );
         }
     }
+
+    public PersonalDataBasicInfo getPersonalData(int id) {
+        return personalDataDao.readRecordWithId(id);
+    }
 }

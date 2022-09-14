@@ -32,7 +32,14 @@
     <main>
         <div class="row">
             <div class="column welcome">
-                <h2>Welcome ${pageContext.request.userPrincipal.name}</h2>
+                <c:if test="${requestScope.is_personal_data == true}">
+                    <h2>Welcome <c:out value="${requestScope.user_name}"/></h2>
+                </c:if>
+                <c:if test="${requestScope.is_personal_data == false}">
+                    <p><a href="${pageContext.request.contextPath}/personal-data">
+                        Click here</a> to activate account. You have to add Your personal data.</p>
+                    <h2>Welcome</h2>
+                </c:if>
                 <p><c:out value="${requestScope.account_number}"/></p>
                 <i class="fa-solid fa-wallet"></i>
                 <p>Your account balance: ${requestScope.account_balance}zł</p>

@@ -6,7 +6,7 @@ import java.util.Date;
 public class PersonalDataBasicInfo {
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
+    private Date birthDate;
     private String city;
     private String postalCode;
     private String address;
@@ -14,7 +14,7 @@ public class PersonalDataBasicInfo {
 
     public PersonalDataBasicInfo (String name,
                          String surname,
-                         LocalDateTime birthDate,
+                         Date birthDate,
                          String city,
                          String postalCode,
                          String address,
@@ -36,7 +36,7 @@ public class PersonalDataBasicInfo {
         return surname;
     }
 
-    public LocalDateTime getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 

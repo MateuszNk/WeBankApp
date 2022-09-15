@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CountryService {
-    private CountryDao countryDao = new CountryDao();
+    private final CountryDao countryDao = new CountryDao();
 
     public List<CountryName> findAllCategoryNames() {
         return countryDao.findAllCountries()

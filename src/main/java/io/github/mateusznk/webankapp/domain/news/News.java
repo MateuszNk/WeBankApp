@@ -3,11 +3,11 @@ package io.github.mateusznk.webankapp.domain.news;
 import java.time.LocalDateTime;
 
 public class News {
-    private Integer id;
-    private String title;
-    private String url;
-    private String description;
-    private LocalDateTime dateAdded;
+    private final Integer id;
+    private final String title;
+    private final String url;
+    private final String description;
+    private final LocalDateTime dateAdded;
 
     public News(Integer id,
                 String title,

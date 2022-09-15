@@ -1,17 +1,16 @@
 package io.github.mateusznk.webankapp.domain.account.personal;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class PersonalData {
     private Integer id;
-    private String name;
-    private String surname;
-    private Date birthDate;
-    private String city;
-    private String postalCode;
-    private String address;
-    private String country;
+    private final String name;
+    private final String surname;
+    private final Date birthDate;
+    private final String city;
+    private final String postalCode;
+    private final String address;
+    private final String country;
 
     public PersonalData(Integer id,
                         String name,

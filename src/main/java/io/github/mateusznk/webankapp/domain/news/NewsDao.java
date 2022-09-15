@@ -1,10 +1,7 @@
 package io.github.mateusznk.webankapp.domain.news;
 
-import io.github.mateusznk.webankapp.config.DataSourceProvider;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
 
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

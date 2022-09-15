@@ -1,16 +1,15 @@
 package io.github.mateusznk.webankapp.domain.api;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class PersonalDataBasicInfo {
-    private String name;
-    private String surname;
-    private Date birthDate;
-    private String city;
-    private String postalCode;
-    private String address;
-    private String country;
+    private final String name;
+    private final String surname;
+    private final Date birthDate;
+    private final String city;
+    private final String postalCode;
+    private final String address;
+    private final String country;
 
     public PersonalDataBasicInfo (String name,
                          String surname,

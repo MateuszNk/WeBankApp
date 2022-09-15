@@ -2,8 +2,8 @@ package io.github.mateusznk.webankapp.domain.api;
 
 public class AccountBasicInfo {
     private Integer id;
-    private String accountNumber;
-    private double balance;
+    private final String accountNumber;
+    private final double balance;
 
     public AccountBasicInfo(Integer id, String accountNumber, double balance) {
         this(accountNumber, balance);
@@ -14,7 +14,10 @@ public class AccountBasicInfo {
         this.balance = balance;
     }
 
-    public void setId(Integer id) { this.id = id; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }

@@ -7,30 +7,24 @@ public class PersonalDataService {
     private final PersonalDataDao personalDataDao = new PersonalDataDao();
     private final PersonalDataMapper personalDataMapper = new PersonalDataMapper();
 
-    public void checkIfPersonalDataExists(PersonalDataBasicInfo personalDataBasicInfo,
-                                          int id) {
-        boolean isDataInDb = personalDataDao.isRecordInDb(id);
-        if ( isDataInDb ) {
-            replacePersonalData(personalDataBasicInfo,
-                    id);
+    public PersonalDataBasicInfo getPersonalData(int id) {
+        return personalDataDao.readRecordWithId(id);
+    }
+
+    public void checkIfPersonalDataExists(PersonalDataBasicInfo personalDataBasicInfo, int id) {
+        if (personalDataDao.isRecordInDb(id)) {
+            replacePersonalData(personalDataBasicInfo, id);
         } else {
-            createNewPersonalData(personalDataBasicInfo,
-                    id);
+            createNewPersonalData(personalDataBasicInfo, id);
         }
     }
 
-    private void replacePersonalData (PersonalDataBasicInfo personalDataBasicInfo,
-                                      int id) {
+    private void replacePersonalData (PersonalDataBasicInfo personalDataBasicInfo, int id) {
         personalDataDao.replaceData(personalDataBasicInfo, id);
     }
-    private void createNewPersonalData (PersonalDataBasicInfo personalDataBasicInfo,
-                                      int id) {
+    private void createNewPersonalData (PersonalDataBasicInfo personalDataBasicInfo, int id) {
         PersonalData personalData = personalDataMapper.map(personalDataBasicInfo);
         personalDataDao.saveData(personalData, id);
-    }
-
-    public String getStringCountryFromCountryID(int idOfCountry) {
-        return personalDataDao.getCountryWithId(idOfCountry);
     }
 
     private static class PersonalDataMapper {
@@ -46,13 +40,5 @@ public class PersonalDataService {
                     pdbi.getCountry()
             );
         }
-    }
-
-    public PersonalDataBasicInfo getPersonalData(int id) {
-        return personalDataDao.readRecordWithId(id);
-    }
-
-    public int changeStringCountryToInt(String country) {
-        return personalDataDao.getCountryIdFromString(country);
     }
 }

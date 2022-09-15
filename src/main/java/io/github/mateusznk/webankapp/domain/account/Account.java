@@ -2,8 +2,8 @@ package io.github.mateusznk.webankapp.domain.account;
 
 public class Account {
     private Integer id;
-    private String accountNumber;
-    private double balance;
+    private final String accountNumber;
+    private final double balance;
 
     public Account(Integer id, String accountNumber, double balance) {
         this(accountNumber, balance);

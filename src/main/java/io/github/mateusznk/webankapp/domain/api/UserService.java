@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.OptionalInt;
 
 public class UserService {
-    private UserDao userDao = new UserDao();
-    private AccountDao accountDao = new AccountDao();
+    private final UserDao userDao = new UserDao();
+    private final AccountDao accountDao = new AccountDao();
 
     public void register(UserRegistration userRegistration) {
         User userToSave = UserMapper.map(userRegistration);
@@ -28,11 +28,6 @@ public class UserService {
         }
     }
 
-    private void hashPasswordWithSha256(User user) throws NoSuchAlgorithmException {
-        String sha256Password = DigestUtils.sha256Hex(user.getPassword());
-        user.setPassword(sha256Password);
-    }
-
     private static class UserMapper {
         static User map(UserRegistration userRegistration) {
             return new User(
@@ -46,6 +41,10 @@ public class UserService {
         }
     }
 
+    private void hashPasswordWithSha256(User user) throws NoSuchAlgorithmException {
+        String sha256Password = DigestUtils.sha256Hex(user.getPassword());
+        user.setPassword(sha256Password);
+    }
 
     public OptionalInt findIdOfAccount(String username) {
         return userDao.findUser(username);

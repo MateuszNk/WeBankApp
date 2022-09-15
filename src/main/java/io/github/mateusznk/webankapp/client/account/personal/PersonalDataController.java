@@ -31,16 +31,14 @@ public class PersonalDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<CountryName> countries = countryService.findAllCategoryNames();
-        OptionalInt optionalInt = getIdFromDB(request);
-        if (optionalInt.isEmpty()) {
-            throw new UnknownError();
-        }
-        int id = optionalInt.getAsInt();
-        PersonalDataBasicInfo personalDataBasicInfo = personalDataService.getPersonalData(id);
+        request.setAttribute("countries", countries);
+
+        PersonalDataBasicInfo personalDataBasicInfo = personalDataService.getPersonalData(getIdFromDB(request));
         if (personalDataBasicInfo != null) {
-            List<PersonalDataBasicInfo> list = new ArrayList<>();
-            list.add(personalDataBasicInfo);
-            request.setAttribute("data", list);
+            List<PersonalDataBasicInfo> personalDataList = new ArrayList<>();
+            personalDataList.add(personalDataBasicInfo);
+            request.setAttribute("data", personalDataList);
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String format = formatter.format(personalDataBasicInfo.getBirthDate());
             request.setAttribute("format", format);
@@ -49,22 +47,14 @@ public class PersonalDataController extends HttpServlet {
             request.setAttribute("is_personal_data", false);
         }
 
-        request.setAttribute("countries", countries);
         request.getRequestDispatcher("/WEB-INF/views/personal-data.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PersonalDataBasicInfo personalDataBasicInfo = createSaveRequest(request);
-        OptionalInt optionalInt = getIdFromDB(request);
-        if (optionalInt.isEmpty()) {
-            throw new UnknownError();
-        }
-
-        personalDataService.checkIfPersonalDataExists(personalDataBasicInfo,
-                optionalInt.getAsInt());
+        personalDataService.checkIfPersonalDataExists(personalDataBasicInfo, getIdFromDB(request));
         response.sendRedirect(request.getContextPath());
-        //request.getRequestDispatcher("/account").forward(request, response);
     }
 
     private PersonalDataBasicInfo createSaveRequest(HttpServletRequest request) {
@@ -92,12 +82,12 @@ public class PersonalDataController extends HttpServlet {
         );
     }
 
-    private int getIntCountry(HttpServletRequest request) {
-        return Integer.parseInt(request.getParameter("countryId"));
-    }
-
-    private OptionalInt getIdFromDB(HttpServletRequest request) {
+    private int getIdFromDB(HttpServletRequest request) {
         String username = request.getUserPrincipal().getName();
-        return userService.findIdOfAccount(username);
+        OptionalInt id = userService.findIdOfAccount(username);
+        if (id.isEmpty()) {
+            throw new UnknownError();
+        }
+        return id.getAsInt();
     }
 }

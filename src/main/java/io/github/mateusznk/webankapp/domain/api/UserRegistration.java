@@ -1,11 +1,11 @@
 package io.github.mateusznk.webankapp.domain.api;
 
 public class UserRegistration {
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
-    private boolean newsletter;
+    private final String username;
+    private final String password;
+    private final String email;
+    private final String phoneNumber;
+    private final boolean newsletter;
 
     public UserRegistration(String username,
                             String password,
@@ -35,5 +35,7 @@ public class UserRegistration {
         return phoneNumber;
     }
 
-    public boolean getNewsletter() { return newsletter; }
+    public boolean getNewsletter() {
+        return newsletter;
+    }
 }

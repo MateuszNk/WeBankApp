@@ -16,7 +16,6 @@ import java.io.IOException;
                 @HttpMethodConstraint(value = "GET", rolesAllowed = "USER")
         }
 )
-
 public class LoginController extends HttpServlet {
 
     @Override

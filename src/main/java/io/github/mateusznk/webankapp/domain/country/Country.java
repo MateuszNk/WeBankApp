@@ -2,7 +2,7 @@ package io.github.mateusznk.webankapp.domain.country;
 
 public class Country {
     private Integer id;
-    private String country;
+    private final String country;
 
     public Country(Integer id, String country) {
         this.id = id;

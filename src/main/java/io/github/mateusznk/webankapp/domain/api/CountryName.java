@@ -2,7 +2,7 @@ package io.github.mateusznk.webankapp.domain.api;
 
 public class CountryName {
     private Integer id;
-    private String country;
+    private final String country;
 
     public CountryName(Integer id, String country) {
         this.id = id;
@@ -13,7 +13,11 @@ public class CountryName {
         this.country = country;
     }
 
-    public String getCountry() { return country; }
+    public String getCountry() {
+        return country;
+    }
 
-    public Integer getId() { return id; }
+    public Integer getId() {
+        return id;
+    }
 }

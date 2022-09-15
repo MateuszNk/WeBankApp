@@ -3,10 +3,10 @@ package io.github.mateusznk.webankapp.domain.api;
 import java.time.LocalDateTime;
 
 public class NewsBasicInfo {
-    private String title;
-    private String url;
-    private String description;
-    private LocalDateTime dateAdded;
+    private final String title;
+    private final String url;
+    private final String description;
+    private final LocalDateTime dateAdded;
 
     public NewsBasicInfo(String title,
                          String url,
@@ -18,8 +18,18 @@ public class NewsBasicInfo {
         this.dateAdded = dateAdded;
     }
 
-    public String getTitle() { return title; }
-    public String getUrl() { return url; }
-    public String getDescription() { return description; }
-    public LocalDateTime getDateAdded() { return dateAdded; }
+    public String getTitle() {
+        return title;
+    }
+    public String getUrl() {
+        return url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getDateAdded() {
+        return dateAdded;
+    }
 }

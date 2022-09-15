@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class User {
     private Integer id;
-    private String username;
+    private final String username;
     private String password;
-    private String email;
-    private String phoneNumber;
-    private LocalDateTime registrationDate;
-    private boolean newsletter;
+    private final String email;
+    private final String phoneNumber;
+    private final LocalDateTime registrationDate;
+    private final boolean newsletter;
 
     public User(String username,
                 String password,
@@ -29,7 +29,9 @@ public class User {
         this.id = id;
     }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -55,5 +57,7 @@ public class User {
         return registrationDate;
     }
 
-    public boolean getNewsletter() { return newsletter; }
+    public boolean getNewsletter() {
+        return newsletter;
+    }
 }

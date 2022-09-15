@@ -9,12 +9,12 @@ import java.text.SimpleDateFormat;
 
 public class PersonalDataDao extends BaseDao {
 
-    public void saveData(PersonalData personalData, int id, int idOfCountry) {
-        String country = getCountryWithId(idOfCountry);
-        saveDataToDatabase(personalData, id ,country);
+    public void saveData(PersonalData personalData, int id) {
+
+        saveDataToDatabase(personalData, id);
     }
 
-    private void saveDataToDatabase(PersonalData personalData, int id, String country) {
+    private void saveDataToDatabase(PersonalData personalData, int id) {
         final String query = """
                 INSERT INTO
                     personal_data (id, name, surname, birth_date, city, postal_code, address, country)
@@ -28,11 +28,11 @@ public class PersonalDataDao extends BaseDao {
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, personalData.getName());
             preparedStatement.setString(3, personalData.getSurname());
-            preparedStatement.setObject(4, SQLDate);
+            preparedStatement.setObject(4, personalData.getBirthDate());
             preparedStatement.setString(5, personalData.getCity());
             preparedStatement.setString(6, personalData.getPostalCode());
             preparedStatement.setString(7, personalData.getAddress());
-            preparedStatement.setString(8, country);
+            preparedStatement.setString(8, personalData.getCountry());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -82,9 +82,7 @@ public class PersonalDataDao extends BaseDao {
         }
     }
 
-    public void replaceData (PersonalDataBasicInfo personalDataBasicInfo,
-                             int id,
-                             Integer idOfCountry) {
+    public void replaceData (PersonalDataBasicInfo personalDataBasicInfo, int id) {
         final String query = """
                 UPDATE
                     personal_data
@@ -101,16 +99,16 @@ public class PersonalDataDao extends BaseDao {
                 """;
 
         Date SQLDate = transformDateToSQL(String.valueOf(personalDataBasicInfo.getBirthDate()));
-        String country = getCountryWithId(idOfCountry);
+        //String country = getCountryWithId(idOfCountry);
         try (Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, personalDataBasicInfo.getName());
             preparedStatement.setString(2, personalDataBasicInfo.getSurname());
-            preparedStatement.setObject(3, SQLDate);
+            preparedStatement.setObject(3, personalDataBasicInfo.getBirthDate());
             preparedStatement.setString(4, personalDataBasicInfo.getCity());
             preparedStatement.setString(5, personalDataBasicInfo.getPostalCode());
             preparedStatement.setString(6, personalDataBasicInfo.getAddress());
-            preparedStatement.setString(7, country);
+            preparedStatement.setString(7, personalDataBasicInfo.getCountry());
             preparedStatement.setInt(8, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -143,29 +141,13 @@ public class PersonalDataDao extends BaseDao {
     private static PersonalDataBasicInfo map(ResultSet resultSet) throws SQLException {
         String name = resultSet.getString("name");
         String surname = resultSet.getString("surname");
-        String stringDate = String.valueOf(resultSet.getDate("birth_date"));
-
-        /**
-         * Stare dane root/admin działają
-         * Utworzenie nowego user też działa
-         * Utworzenie nowego account też działa
-         * NIE DZIAŁA ?
-         * Po wywaleniu z account.jsp, AccountContronller - PersonalDataBasicInfo działa zalogowanie na konto,
-         *      ale nadal nie działa MyAccount
-         */
-        java.util.Date birthDate = null;
-        try {
-            birthDate = new SimpleDateFormat("dd-MM-yyyy").parse(stringDate);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        Date birthDate = resultSet.getDate("birth_date");
         String city = resultSet.getString("city");
         String postalCode = resultSet.getString("postal_code");
         String address = resultSet.getString("address");
         String country = resultSet.getString("country");
         return new PersonalDataBasicInfo(name, surname, birthDate, city, postalCode, address, country);
     }
-
     private java.sql.Date transformDateToSQL(String stringDate) {
         java.sql.Date SQLDate;
         try {
@@ -175,5 +157,28 @@ public class PersonalDataDao extends BaseDao {
             throw new RuntimeException(e);
         }
         return SQLDate;
+    }
+
+    public int getCountryIdFromString(String country) {
+        final String query = """
+                SELECT
+                    id
+                FROM
+                    countries
+                WHERE
+                    country = ?
+                """;
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, country);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                throw new SQLException();
+            }
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

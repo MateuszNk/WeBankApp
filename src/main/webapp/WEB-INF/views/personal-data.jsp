@@ -24,14 +24,16 @@
 
     <c:if test="${requestScope.is_personal_data == true}">
       <c:forEach var="data" items="${requestScope.data}">
-        <input name="name" placeholder="Name" value="<c:out value="${data.name}"/>" required>
+        <input name="name" placeholder="Name" value="${data.name}" required>
         <input name="surname" placeholder="Surname" value="${data.surname}" required>
-        <input type="date" name="birth_date" placeholder="Birthday" required>
+        <input type="date" name="birth_date" placeholder="Birthday"
+               value="<c:out value="${requestScope.format}"/>" required>
         <label>
           Country
           <select name="countryId" required>
             <c:forEach var="country" items="${requestScope.countries}">
-              <option value="${country.id}">${country.country}</option>
+              <option value="${country.country}" ${data.country == country.country ? 'selected' : ''}>
+                  ${country.country}</option>
             </c:forEach>
           </select>
         </label>
@@ -49,7 +51,7 @@
         Country
         <select name="countryId" required>
           <c:forEach var="country" items="${requestScope.countries}">
-            <option value="${country.id}">${country.country}</option>
+            <option value="${country.country}">${country.country}</option>
           </c:forEach>
         </select>
       </label>

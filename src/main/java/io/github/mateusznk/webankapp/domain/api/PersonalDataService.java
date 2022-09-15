@@ -8,30 +8,25 @@ public class PersonalDataService {
     private final PersonalDataMapper personalDataMapper = new PersonalDataMapper();
 
     public void checkIfPersonalDataExists(PersonalDataBasicInfo personalDataBasicInfo,
-                                          int id,
-                                          int idOfCountry) {
+                                          int id) {
         boolean isDataInDb = personalDataDao.isRecordInDb(id);
         if ( isDataInDb ) {
             replacePersonalData(personalDataBasicInfo,
-                    id,
-                    idOfCountry);
+                    id);
         } else {
             createNewPersonalData(personalDataBasicInfo,
-                    id,
-                    idOfCountry);
+                    id);
         }
     }
 
     private void replacePersonalData (PersonalDataBasicInfo personalDataBasicInfo,
-                                      int id,
-                                      Integer idOfCountry) {
-        personalDataDao.replaceData(personalDataBasicInfo, id, idOfCountry);
+                                      int id) {
+        personalDataDao.replaceData(personalDataBasicInfo, id);
     }
     private void createNewPersonalData (PersonalDataBasicInfo personalDataBasicInfo,
-                                      int id,
-                                      Integer idOfCountry) {
+                                      int id) {
         PersonalData personalData = personalDataMapper.map(personalDataBasicInfo);
-        personalDataDao.saveData(personalData, id, idOfCountry);
+        personalDataDao.saveData(personalData, id);
     }
 
     public String getStringCountryFromCountryID(int idOfCountry) {
@@ -55,5 +50,9 @@ public class PersonalDataService {
 
     public PersonalDataBasicInfo getPersonalData(int id) {
         return personalDataDao.readRecordWithId(id);
+    }
+
+    public int changeStringCountryToInt(String country) {
+        return personalDataDao.getCountryIdFromString(country);
     }
 }

@@ -40,8 +40,10 @@ public class PersonalDataController extends HttpServlet {
         if (personalDataBasicInfo != null) {
             List<PersonalDataBasicInfo> list = new ArrayList<>();
             list.add(personalDataBasicInfo);
-            request.setAttribute("name", personalDataBasicInfo.getName());
             request.setAttribute("data", list);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String format = formatter.format(personalDataBasicInfo.getBirthDate());
+            request.setAttribute("format", format);
             request.setAttribute("is_personal_data", true);
         } else {
             request.setAttribute("is_personal_data", false);
@@ -60,8 +62,7 @@ public class PersonalDataController extends HttpServlet {
         }
 
         personalDataService.checkIfPersonalDataExists(personalDataBasicInfo,
-                optionalInt.getAsInt(),
-                getIntCountry(request));
+                optionalInt.getAsInt());
         response.sendRedirect(request.getContextPath());
         //request.getRequestDispatcher("/account").forward(request, response);
     }
@@ -79,9 +80,7 @@ public class PersonalDataController extends HttpServlet {
         String city = request.getParameter("city");
         String postalCode = request.getParameter("postal_code");
         String address = request.getParameter("address");
-        int countryId = getIntCountry(request);
-        String country = personalDataService.getStringCountryFromCountryID(countryId);
-
+        String country = request.getParameter("countryId");
         return new PersonalDataBasicInfo(
                 name,
                 surname,

@@ -22,7 +22,10 @@
         <input name="j_username" placeholder="Username" required>
         <input name="j_password" placeholder="Password" type="password" required>
         <button class="user-form-button">Login</button>
-        <p>Do not You have an account? <a href="${pageContext.request.contextPath}/signup">Register now!</a></p>
+        <p>
+            Do not You have an account?
+            <a href="${pageContext.request.contextPath}/signup">Register now!</a>
+        </p>
     </form>
 
     <%@ include file="../segments/footer.jspf" %>

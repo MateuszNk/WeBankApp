@@ -2,6 +2,8 @@ package io.github.mateusznk.webankapp.client.signup;
 
 import io.github.mateusznk.webankapp.domain.api.UserRegistration;
 import io.github.mateusznk.webankapp.domain.api.UserService;
+import io.github.mateusznk.webankapp.domain.user.User;
+import io.github.mateusznk.webankapp.errors.checkErrors.SignupErrors;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import java.io.IOException;
 @WebServlet("/signup")
 public class SignupController extends HttpServlet {
     private final UserService userService = new UserService();
+    private final SignupErrors signupErrors = new SignupErrors();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,10 +23,15 @@ public class SignupController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserRegistration userRegistration = getUserData(request);
-        userService.register(userRegistration);
-        response.sendRedirect(request.getContextPath());
+        if (signupErrors.isError(request, userRegistration)) {
+            request.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(request, response);
+        } else {
+            userService.register(userRegistration);
+            response.sendRedirect(request.getContextPath());
+        }
+
     }
 
     private UserRegistration getUserData(HttpServletRequest request) {

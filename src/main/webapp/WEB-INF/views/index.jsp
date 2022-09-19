@@ -14,17 +14,10 @@
 <div class="container">
     <nav class="navbar">
         <a href="${pageContext.request.contextPath}" class="logo">WeBankApp</a>
-        <c:if test="${empty pageContext.request.userPrincipal}">
-            <div class="buttons">
-                <a href="${pageContext.request.contextPath}/login" class="login-button">Sign In</a>
-                <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
-            </div>
-        </c:if>
-        <c:if test="${not empty pageContext.request.userPrincipal}">
-            <div class="buttons">
-                <a href="${pageContext.request.contextPath}/account" class="myaccount-button">My account</a>
-            </div>
-        </c:if>
+        <div class="buttons">
+            <a href="${pageContext.request.contextPath}/login" class="login-button">Sign In</a>
+            <a href="${pageContext.request.contextPath}/signup" class="register-button">Register</a>
+        </div>
     </nav>
 
     <%@ include file="../segments/menu.jspf" %>
@@ -38,7 +31,9 @@
             <div class="column">
                 <article class="discovery">
                     <h2 class="discovery-header"><c:out value="${news.title}"/></h2>
-                    <p class="discovery-date">Created ${news.dateAdded.format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"))}</p>
+                    <p class="discovery-date">
+                        Created ${news.dateAdded.format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"))}
+                    </p>
                     <p>${news.description}</p>
                 </article>
             </div>

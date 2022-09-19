@@ -54,7 +54,7 @@ public class PersonalDataController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PersonalDataBasicInfo personalDataBasicInfo = createSaveRequest(request);
         personalDataService.checkIfPersonalDataExists(personalDataBasicInfo, getIdFromDB(request));
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath() + "/account");
     }
 
     private PersonalDataBasicInfo createSaveRequest(HttpServletRequest request) {

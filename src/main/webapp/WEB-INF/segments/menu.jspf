@@ -8,10 +8,3 @@
         <li><a href="#">Contact</a></li>
     </ul>
 </aside>
-
-<!-- <div class="usage">
-    <label>
-        <i class="fa-solid fa-magnifying-glass" style="position: absolute; padding: 8px;"></i>
-        <input type="text" name="search" class="search" placeholder="Search:">
-    </label>
-</div> -->

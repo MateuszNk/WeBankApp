@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,13 +19,16 @@
     </nav>
     <hr class="line">
 
+    <%@ include file="../segments/error.jspf" %>
+
     <form action="${pageContext.request.contextPath}/signup" method="post" class="user-form">
         <h2 class="user-form-title">Create an account</h2>
         <input name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="repeat-password" placeholder="Repeat password" required>
         <input name="email" placeholder="E-mail" required>
-        <input type="tel" name="phone_number" placeholder="Phone number ex.(123456789)" pattern="[0-9]{3}[0-9]{3}[0-9]{3}" required>
+        <input type="tel" name="phone_number" placeholder="Phone number ex.(123456789)"
+               pattern="[0-9]{3}[0-9]{3}[0-9]{3}" required>
         <div>
             <input type="checkbox" id="gdpr" name="gdpr" value="gdpr" required>
             <label for="gdpr" >I agree to the <a href="#">Terms of Service</a></label>

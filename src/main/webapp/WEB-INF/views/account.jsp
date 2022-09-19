@@ -36,8 +36,11 @@
                     <h2>Welcome <c:out value="${requestScope.user_name}"/></h2>
                 </c:if>
                 <c:if test="${requestScope.is_personal_data == false}">
-                    <p><a href="${pageContext.request.contextPath}/personal-data">
-                        Click here</a> to activate account. You have to add Your personal data.</p>
+                    <p>
+                        <a href="${pageContext.request.contextPath}/personal-data">
+                        Click here</a>
+                        to activate account. You have to add Your personal data.
+                    </p>
                     <h2>Welcome</h2>
                 </c:if>
                 <p><c:out value="${requestScope.account_number}"/></p>

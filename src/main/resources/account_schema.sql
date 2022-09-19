@@ -9,8 +9,3 @@ CREATE TABLE IF NOT EXISTS account (
 
 ALTER TABLE account
 MODIFY account_number VARCHAR(26) NOT NULL UNIQUE;
-
-INSERT INTO
-    account (id, account_number, balance)
-VALUES
-    ((SELECT id FROM registration_data),'1212341234123412341234', 97340);

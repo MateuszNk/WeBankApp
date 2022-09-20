@@ -1,6 +1,7 @@
 package io.github.mateusznk.webankapp.errors.checkErrors;
 
 import io.github.mateusznk.webankapp.domain.api.UserRegistration;
+import io.github.mateusznk.webankapp.domain.api.UserService;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
 import io.github.mateusznk.webankapp.errors.Errors;
 import io.github.mateusznk.webankapp.errors.TypesOfErrors;
@@ -18,6 +19,9 @@ public class SignupErrors extends BaseDao {
     public boolean isError(HttpServletRequest request, UserRegistration userRegistration) {
         List<String> errors = new ArrayList<>();
         String error = isUsernameTaken(userRegistration.getUsername());
+        errors.add(error);
+
+        error = isUsernameValid(userRegistration.getUsername());
         errors.add(error);
 
         error = checkIfPasswordsAreEqual(userRegistration.getPassword(),
@@ -68,6 +72,21 @@ public class SignupErrors extends BaseDao {
         return "";
     }
 
+    private String isUsernameValid(String username) {
+        final Pattern specialCharacterPattern = Pattern.compile("[^a-z0-9]",
+                Pattern.CASE_INSENSITIVE);
+        final int minimalLength = 6;
+        final int maximalLength = 16;
+        if (specialCharacterPattern.matcher(username).find() ||
+        username.contains(" ") ||
+        username.length() < minimalLength ||
+        username.length() > maximalLength) {
+            return Errors.returnStringError(TypesOfErrors.USERNAME_IS_NOT_VALID);
+        }
+
+        return "";
+    }
+
     private String checkIfPasswordsAreEqual(String password, String repeatedPassword) {
         if (password.equals(repeatedPassword)) {
             return "";
@@ -83,13 +102,13 @@ public class SignupErrors extends BaseDao {
         final Pattern lowerCasePattern = Pattern.compile("[a-z]");
         final Pattern digitCasePattern = Pattern.compile("[0-9]");
         final int minimalLength = 8;
-
+        final int maximalLength = 32;
         if (password.length() < minimalLength ||
+                password.length() > maximalLength ||
                 !specialCharacterPattern.matcher(password).find() ||
                 !upperCasePattern.matcher(password).find() ||
                 !lowerCasePattern.matcher(password).find() ||
                 !digitCasePattern.matcher(password).find()) {
-            System.out.println(password);
             return Errors.returnStringError(TypesOfErrors.PASSWORD_NOT_MEET_REQUIREMENTS);
         }
 
@@ -97,7 +116,13 @@ public class SignupErrors extends BaseDao {
     }
 
     private String checkEmail(String email) {
-        if (!email.contains("@") ||
+        final long count = email.chars().filter(ch -> ch == '@').count();
+        final int minimalLength = 8;
+        final int maximalLength = 60;
+        if (count > 1 ||
+                email.length() < minimalLength ||
+                email.length() > maximalLength ||
+                !email.contains("@") ||
                 !email.contains(".com")) {
             return Errors.returnStringError(TypesOfErrors.EMAIL_IS_NOT_VALID);
         }

@@ -2,7 +2,6 @@ package io.github.mateusznk.webankapp.client.signup;
 
 import io.github.mateusznk.webankapp.domain.api.UserRegistration;
 import io.github.mateusznk.webankapp.domain.api.UserService;
-import io.github.mateusznk.webankapp.domain.user.User;
 import io.github.mateusznk.webankapp.errors.checkErrors.SignupErrors;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

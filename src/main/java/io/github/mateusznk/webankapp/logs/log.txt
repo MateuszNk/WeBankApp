@@ -1,0 +1,2 @@
+[2022-09-22 15:06] Exception at io.github.mateusznk.webankapp.client.account.AccountController in line: 55
+[2022-09-22 15:09] Exception at io.github.mateusznk.webankapp.client.account.AccountController in line: 36

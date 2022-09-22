@@ -1,11 +1,14 @@
 package io.github.mateusznk.webankapp.domain.user;
 
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 
 import java.sql.*;
 import java.util.OptionalInt;
 
 public class UserDao extends BaseDao {
+
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
 
     public void save(User user) {
         saveUser(user);
@@ -36,6 +39,7 @@ public class UserDao extends BaseDao {
                 user.setId(generatedKeys.getInt(1));
             }
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -53,6 +57,7 @@ public class UserDao extends BaseDao {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -80,6 +85,7 @@ public class UserDao extends BaseDao {
             }
             return OptionalInt.empty();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,7 @@
 package io.github.mateusznk.webankapp.domain.account;
 
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.Random;
 
 public class AccountDao extends BaseDao {
 
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
     public Optional<Account> readAccountDataWithId(int id) {
         final String query = """
                 SELECT
@@ -32,6 +34,7 @@ public class AccountDao extends BaseDao {
             }
             return Optional.empty();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -58,6 +61,7 @@ public class AccountDao extends BaseDao {
             preparedStatement.setDouble(3,0.0);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -83,6 +87,7 @@ public class AccountDao extends BaseDao {
             }
             return allAccounts;
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -96,7 +101,7 @@ public class AccountDao extends BaseDao {
             for (int i = 0; i < 26; i++) {
                 int number = random.nextInt(10);
                 accountNumber.append(number);
-               accountNumberExists = checkIfAccountNumberExists(accountNumber.toString(), accounts);
+                accountNumberExists = checkIfAccountNumberExists(accountNumber.toString(), accounts);
             }
         } while (accountNumberExists);
 

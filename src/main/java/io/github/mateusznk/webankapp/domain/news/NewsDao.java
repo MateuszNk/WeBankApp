@@ -1,6 +1,7 @@
 package io.github.mateusznk.webankapp.domain.news;
 
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsDao extends BaseDao {
-
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
     public List<News> findAllNews() {
         final String query = """
                 SELECT
@@ -29,6 +30,7 @@ public class NewsDao extends BaseDao {
             }
             return allNews;
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }

@@ -2,6 +2,7 @@ package io.github.mateusznk.webankapp.domain.country;
 
 import io.github.mateusznk.webankapp.domain.account.Account;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CountryDao extends BaseDao {
-
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
     public List<Country> findAllCountries() {
         final String query = """
                 SELECT
@@ -30,6 +31,7 @@ public class CountryDao extends BaseDao {
             }
             return allCountries;
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }

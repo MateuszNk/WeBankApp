@@ -1,6 +1,7 @@
 package io.github.mateusznk.webankapp.client.account;
 
 import io.github.mateusznk.webankapp.domain.api.*;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,6 +17,7 @@ public class AccountController extends HttpServlet {
     private final AccountService accountService = new AccountService();
     private final UserService userService = new UserService();
     private final PersonalDataService personalDataService = new PersonalDataService();
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,6 +33,7 @@ public class AccountController extends HttpServlet {
 
         Optional<AccountBasicInfo> accountBasicInfo = accountService.readAccountData(id);
         if (accountBasicInfo.isEmpty()) {
+            exceptionToLog(Thread.currentThread().getStackTrace()[1].getLineNumber());
             throw new RuntimeException();
         }
         request.setAttribute("account_number", accountBasicInfo.get().getAccountNumber());
@@ -42,8 +45,13 @@ public class AccountController extends HttpServlet {
         String username = request.getUserPrincipal().getName();
         OptionalInt id = userService.findIdOfAccount(username);
         if (id.isEmpty()) {
+            exceptionToLog(Thread.currentThread().getStackTrace()[1].getLineNumber());
             throw new RuntimeException();
         }
         return id.getAsInt();
+    }
+    private void exceptionToLog(int lineNumber) {
+        writeExceptionsToFile.unusualErrorLog(lineNumber,
+                getClass().getName());
     }
 }

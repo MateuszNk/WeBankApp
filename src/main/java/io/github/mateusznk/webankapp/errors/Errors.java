@@ -1,5 +1,7 @@
 package io.github.mateusznk.webankapp.errors;
 
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
+
 public class Errors {
 
     public static String returnStringError(TypesOfErrors typeOfError) {

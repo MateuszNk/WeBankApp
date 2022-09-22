@@ -2,11 +2,13 @@ package io.github.mateusznk.webankapp.domain.account.personal;
 
 import io.github.mateusznk.webankapp.domain.api.PersonalDataBasicInfo;
 import io.github.mateusznk.webankapp.domain.common.BaseDao;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 
 import java.sql.*;
 
 public class PersonalDataDao extends BaseDao {
 
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
     public void replaceData (PersonalDataBasicInfo personalDataBasicInfo, int id) {
         final String query = """
                 UPDATE
@@ -35,6 +37,7 @@ public class PersonalDataDao extends BaseDao {
             preparedStatement.setInt(8, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -63,6 +66,7 @@ public class PersonalDataDao extends BaseDao {
             preparedStatement.setString(8, personalData.getCountry());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -85,6 +89,7 @@ public class PersonalDataDao extends BaseDao {
             }
             return map(resultSet);
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -105,6 +110,7 @@ public class PersonalDataDao extends BaseDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
     }

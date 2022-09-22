@@ -2,6 +2,7 @@ package io.github.mateusznk.webankapp.client.account.personal;
 
 import io.github.mateusznk.webankapp.domain.api.*;
 import io.github.mateusznk.webankapp.errors.checkErrors.PersonalDataErrors;
+import io.github.mateusznk.webankapp.logs.WriteExceptionsToFile;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpMethodConstraint;
 import jakarta.servlet.annotation.ServletSecurity;
@@ -13,8 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
@@ -31,6 +30,7 @@ public class PersonalDataController extends HttpServlet {
     private final PersonalDataService personalDataService = new PersonalDataService();
     private final UserService userService = new UserService();
     private final PersonalDataErrors personalDataErrors = new PersonalDataErrors();
+    private final WriteExceptionsToFile writeExceptionsToFile = new WriteExceptionsToFile();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,7 +59,6 @@ public class PersonalDataController extends HttpServlet {
         PersonalDataBasicInfo personalDataBasicInfo = createSaveRequest(request);
         if (personalDataErrors.isError(request, personalDataBasicInfo)) {
             doGet(request, response);
-            //request.getRequestDispatcher("/WEB-INF/views/personal-data.jsp").forward(request, response);
         } else {
             personalDataService.checkIfPersonalDataExists(personalDataBasicInfo, getIdFromDB(request));
             response.sendRedirect(request.getContextPath() + "/account");
@@ -74,8 +73,10 @@ public class PersonalDataController extends HttpServlet {
             java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birth_date"));
             SQLDate = new java.sql.Date(date.getTime());
         } catch (ParseException e) {
+            writeExceptionsToFile.typicalErrorLog(getClass().getName(), e);
             throw new RuntimeException(e);
         }
+
         String city = request.getParameter("city").replaceAll("\\s+", "");
         String postalCode = request.getParameter("postal_code").replaceAll("\\s+", "");
         String address = request.getParameter("address").replaceAll("\\s+", "");
@@ -95,6 +96,9 @@ public class PersonalDataController extends HttpServlet {
         String username = request.getUserPrincipal().getName();
         OptionalInt id = userService.findIdOfAccount(username);
         if (id.isEmpty()) {
+            writeExceptionsToFile.unusualErrorLog(
+                    Thread.currentThread().getStackTrace()[1].getLineNumber(),
+                    getClass().getName());
             throw new RuntimeException();
         }
         return id.getAsInt();

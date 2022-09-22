@@ -31,7 +31,7 @@ public class AccountController extends HttpServlet {
 
         Optional<AccountBasicInfo> accountBasicInfo = accountService.readAccountData(id);
         if (accountBasicInfo.isEmpty()) {
-            throw new UnknownError();
+            throw new RuntimeException();
         }
         request.setAttribute("account_number", accountBasicInfo.get().getAccountNumber());
         request.setAttribute("account_balance", accountBasicInfo.get().getBalance());
@@ -42,7 +42,7 @@ public class AccountController extends HttpServlet {
         String username = request.getUserPrincipal().getName();
         OptionalInt id = userService.findIdOfAccount(username);
         if (id.isEmpty()) {
-            throw new UnknownError();
+            throw new RuntimeException();
         }
         return id.getAsInt();
     }

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>Personal data</title>
   <%@ include file="../segments/stylesheets.jspf" %>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/forms.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/questionnaire.css">
 </head>
 
 <body>
@@ -17,6 +17,8 @@
     </div>
   </nav>
   <hr class="line">
+
+  <%@ include file="../segments/popup_error.jspf" %>
 
   <form action="${pageContext.request.contextPath}/personal-data" method="post" class="user-form">
     <h2 class="user-form-title">Edit Your personal data</h2>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <%@ include file="../segments/stylesheets.jspf" %>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/forms.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/questionnaire.css">
 </head>
 
 <body>

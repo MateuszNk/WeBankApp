@@ -33,12 +33,12 @@ public class Errors {
                         *) Maximum 32 characters<br>
                         *) Maximum ONE '@' character<br>
                         *) Minimum one domain ex.: '.com'<br>
-                        *) Without white characters ex.: 'space
+                        *) Without white characters ex.: 'space'
                         """;
             } case CONDITIONS_NOT_ACCEPTED -> {
                 return "Conditions not accepted!";
-            } case WRONG_LOGIN_ANDOR_PASSWORD -> {
-                return "Wrong login and/or password!";
+            } case USER_TOO_YOUNG -> {
+                return "You are too young for this account!";
             } default -> {
                 return "Critical error!";
             }

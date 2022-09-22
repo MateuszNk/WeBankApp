@@ -5,13 +5,17 @@
          version="5.0">
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/WEB-INF/views/error.jsp</location>
+        <location>/WEB-INF/views/errors/critical_error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/errors/404_error.jsp</location>
     </error-page>
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>
             <form-login-page>/WEB-INF/views/login.jsp</form-login-page>
-            <form-error-page>/WEB-INF/views/login.jsp</form-error-page>
+            <form-error-page>/WEB-INF/views/login_error.jsp</form-error-page>
         </form-login-config>
     </login-config>
 </web-app>

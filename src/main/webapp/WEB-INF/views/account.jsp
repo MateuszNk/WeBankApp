@@ -23,7 +23,7 @@
     <aside class="menu">
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">Transfers</a></li>
+            <li><a href="${pageContext.request.contextPath}/payment">Payments</a></li>
             <li><a href="#">Offers</a></li>
             <li><a href="#">Settings</a></li>
         </ul>
